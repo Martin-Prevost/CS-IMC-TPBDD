@@ -112,7 +112,7 @@ ORDER BY NombreActeurs DESC;
 SELECT COUNT(idFilm) AS NbFilm, tArtist.idArtist, tArtist.primaryName
 FROM tArtist
 INNER JOIN tJob ON tArtist.idArtist = tJob.idArtist
-WHERE birthYear != 0
+WHERE tJob.category = 'acted in'
 GROUP BY tArtist.idArtist, tArtist.primaryName
 HAVING COUNT(tJob.idArtist) > 1
 ORDER BY NbFilm DESC;
