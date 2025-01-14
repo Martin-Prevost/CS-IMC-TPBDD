@@ -78,17 +78,48 @@ Ecrire les requêtes ci-dessous, et les expliquer en deux ou trois phrases maxim
 
 **Exercice 0**: Décrivez les tables et les attributs.
 
+SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, IS_NULLABLE
+FROM INFORMATION_SCHEMA.COLUMNS
+ORDER BY TABLE_NAME, ORDINAL_POSITION;
+
 **Exercice 1** (¼ pt): Visualisez l'année de naissance de l'artiste `Brad Pitt`.
+
+SELECT idArtist, primaryName, birthYear
+FROM tArtist
+WHERE primaryName = 'Brad Pitt';
 
 **Exercice 2** (¼ pt): Comptez le nombre d'artistes présents dans la base de donnee. 
 
+SELECT COUNT(idArtist) AS nbArtist
+FROM tArtist
+
 **Exercice 3** (¼ pt): Trouvez les noms des artistes nés en `1960`, affichez ensuite leur nombre.
+
+SELECT idArtist, primaryName, birthYear
+FROM tArtist
+WHERE birthYear = 1960;
 
 **Exercice 4** (1 pt): Trouvez l'année de naissance la plus représentée parmi les acteurs (sauf 0!), et combien d'acteurs sont nés cette année là.
 
+SELECT TOP 1 COUNT(idArtist) AS NombreActeurs, birthYear
+FROM tArtist
+WHERE birthYear != 0
+GROUP BY birthYear
+ORDER BY NombreActeurs DESC;
+
 **Exercice 5** (½ pt): Trouvez les artistes ayant joué dans plus d'un film
 
+SELECT COUNT(idFilm) AS NbFilm, tArtist.idArtist, tArtist.primaryName
+FROM tArtist
+INNER JOIN tJob ON tArtist.idArtist = tJob.idArtist
+WHERE birthYear != 0
+GROUP BY tArtist.idArtist, tArtist.primaryName
+HAVING COUNT(tJob.idArtist) > 1
+ORDER BY NbFilm DESC;
+
 **Exercice 6** (½ pt): Trouvez les artistes ayant eu plusieurs responsabilités au cours de leur carrière (acteur, directeur, producteur...).
+
+
 
 **Exercice 7** (¾ pt): Trouver le nom du ou des film(s) ayant le plus d'acteurs (i.e. uniquement *acted in*).
 
