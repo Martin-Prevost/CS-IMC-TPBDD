@@ -119,9 +119,15 @@ ORDER BY NbFilm DESC;
 
 **Exercice 6** (½ pt): Trouvez les artistes ayant eu plusieurs responsabilités au cours de leur carrière (acteur, directeur, producteur...).
 
-
+SELECT tArtist.idArtist, tArtist.primaryName, COUNT(DISTINCT category) AS NbDistJob
+FROM tArtist
+INNER JOIN tJob ON tArtist.idArtist = tJob.idArtist
+GROUP BY tArtist.idArtist, tArtist.primaryName
+HAVING COUNT(DISTINCT tJob.category) > 1;
 
 **Exercice 7** (¾ pt): Trouver le nom du ou des film(s) ayant le plus d'acteurs (i.e. uniquement *acted in*).
+
+
 
 **Exercice 8** (1 pt): Montrez les artistes ayant eu plusieurs responsabilités dans un même film (ex: à la fois acteur et directeur, ou toute autre combinaison) et les titres de ces films.
 
